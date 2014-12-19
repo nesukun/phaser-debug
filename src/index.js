@@ -68,7 +68,8 @@ function Debug(game, parent) {
         ms: null,
         fps: null,
         dpf: null,
-        ent: null
+        ent: null,
+        camera : null
     };
 
     this.timer = (window.performance ? window.performance : Date);
@@ -134,6 +135,7 @@ Debug.prototype.postUpdate = function () {
     ui.setText(this._stats.dpf.firstElementChild, dpf === undefined ? '(N/A)' : dpf, 3);
     ui.setText(this._stats.ms.firstElementChild, Math.round(this.tickTimings.ms), 4);
     ui.setText(this._stats.fps.firstElementChild, Math.round(fps), 2);
+    ui.setText(this._stats.camera.firstElementChild, '' + this.game.camera.x + ' x ' + this.game.camera.y, 2);
 };
 
 /**
@@ -273,6 +275,7 @@ Debug.prototype._createMenuStats = function () {
     this._stats.ms = document.createElement('span');
     this._stats.fps = document.createElement('span');
     this._stats.dpf = document.createElement('span');
+    this._stats.camera = document.createElement('span');
     // this._stats.ent = document.createElement('span');
 
     ui.addClass(this._stats.ms, 'pdebug-stats-item ms');
@@ -286,6 +289,10 @@ Debug.prototype._createMenuStats = function () {
     ui.addClass(this._stats.dpf, 'pdebug-stats-item dpf');
     ui.setHtml(this._stats.dpf, '<span>0</span> draws');
     div.appendChild(this._stats.dpf);
+
+    ui.addClass(this._stats.camera, 'pdebug-stats-item dpf');
+    ui.setHtml(this._stats.camera, 'camera <span>0 x 0</span>');
+    div.appendChild(this._stats.camera);
 
     // ui.addClass(this._stats.ent, 'pdebug-stats-item ent');
     // ui.setHtml(this._stats.ent, '<span>0</span> entities');
