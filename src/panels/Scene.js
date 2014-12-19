@@ -12,6 +12,7 @@ var panelHtml = require('../hbs/scene/panel.hbs'),
 Handlebars.registerPartial('sceneDetails', detailsHtml);
 Handlebars.registerPartial('sceneTree', treeHtml);
 Handlebars.registerHelper('typeString', typeToString);
+Handlebars.registerHelper('globalPosition', globalPosition);
 Handlebars.registerHelper('listItemOpen', listItemOpen);
 
 function Scene(game, parent) {
@@ -124,6 +125,15 @@ function listItemOpen () {
     return new Handlebars.SafeString(
         '<li ' + (this.children && this.children.length ? 'class="has-children" ' : '') + 'data-id="' + _id + '">'
     );
+}
+
+function globalPosition () {
+    var node = this;
+    if (node && node.position && node.name !== "_stage_root" && node.name !== "__world" && node.parent.name !== "__world") {
+        var position =  node.toGlobal(node.position);
+        return new Handlebars.SafeString('(' + position.x + ' x ' + position.y +')');
+    }
+    return '';
 }
 
 function typeToString () {
